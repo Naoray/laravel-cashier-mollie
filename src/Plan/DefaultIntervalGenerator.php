@@ -2,6 +2,7 @@
 
 namespace Laravel\Cashier\Plan;
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Plan\Contracts\IntervalGeneratorContract;
 use Laravel\Cashier\Subscription;
@@ -23,7 +24,7 @@ class DefaultIntervalGenerator extends BaseIntervalGenerator implements Interval
      * @param  \Laravel\Cashier\Subscription|null  $subscription
      * @return \Carbon\Carbon|\Carbon\Traits\Modifiers
      */
-    public function getEndOfNextSubscriptionCycle(Subscription $subscription = null)
+    public function getEndOfNextSubscriptionCycle(Subscription $subscription = null): Carbon
     {
         $cycle_ends_at = $subscription->cycle_ends_at ?? now();
         $subscription_date = $this->startOfTheSubscription($subscription);
@@ -33,7 +34,7 @@ class DefaultIntervalGenerator extends BaseIntervalGenerator implements Interval
                 ->thisDayOrLastOfTheMonth($subscription_date);
         }
 
-        return $cycle_ends_at->modify('+'.$this->interval);
+        return $cycle_ends_at->modify('+' . $this->interval);
     }
 
     /**

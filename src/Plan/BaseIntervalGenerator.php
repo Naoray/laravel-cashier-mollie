@@ -13,7 +13,7 @@ class BaseIntervalGenerator
      */
     protected function startOfTheSubscription(Subscription $subscription = null)
     {
-        if (isset($subscription->trial_ends_at) && ! is_null($subscription->trial_ends_at)) {
+        if (isset($subscription->trial_ends_at) && !is_null($subscription->trial_ends_at)) {
             return $subscription->trial_ends_at;
         }
 
@@ -22,12 +22,12 @@ class BaseIntervalGenerator
 
     protected function useCarbonThisDayOrLast()
     {
-        Carbon::macro('thisDayOrLastOfTheMonth', function ($startOfTheSubscription) {
+        Carbon::macro('thisDayOrLastOfTheMonth', function (Carbon $startOfTheSubscription) {
             $last = $this->lastOfMonth();
 
             $this->day = ($startOfTheSubscription->day > $last->day) ? $last->day : $startOfTheSubscription->day;
 
-            return $this->parse($this->format('Y-m-d').' '.$startOfTheSubscription->format('H:i:s'));
+            return $this->parse($this->format('Y-m-d') . ' ' . $startOfTheSubscription->format('H:i:s'));
         });
     }
 }
